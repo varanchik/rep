@@ -1,0 +1,13 @@
+procedure sort2(j:integer;var Mas:dmass);
+var
+i,g,max,po:integer;
+begin
+ for i := 1 to tr do
+  for g := 1 to tr do
+  if Mas[g,j]>mas[i,j] then
+   begin
+     po:=Mas[g,j];
+     Mas[g,j]:=mas[i,j];
+     Mas[i,j]:=po;
+   end;
+end;

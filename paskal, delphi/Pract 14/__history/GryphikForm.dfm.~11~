@@ -1,0 +1,45 @@
+object Form3: TForm3
+  Left = 0
+  Top = 0
+  BorderStyle = bsSizeToolWin
+  Caption = 'Graphik'
+  ClientHeight = 500
+  ClientWidth = 500
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  FormStyle = fsMDIForm
+  OldCreateOrder = False
+  Visible = True
+  PixelsPerInch = 96
+  TextHeight = 13
+  object Image1: TImage
+    Left = 0
+    Top = 0
+    Width = 500
+    Height = 441
+    Align = alTop
+  end
+  object Panel1: TPanel
+    Left = 0
+    Top = 440
+    Width = 500
+    Height = 60
+    Align = alBottom
+    Caption = 'Panel1'
+    TabOrder = 0
+    ExplicitTop = 421
+    ExplicitWidth = 484
+    object Button1: TButton
+      Left = 104
+      Top = 24
+      Width = 75
+      Height = 25
+      Caption = 'Button1'
+      TabOrder = 0
+    end
+  end
+end

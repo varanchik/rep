@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>1899.12.30 00:00:00.000.183,=B:\техн\Pract\Pract5\Unit4.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.853,B:\техн\Pract\Pract5\Unit1.pas=B:\техн\Pract\Pract6\Unit1.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.521,B:\техн\Pract\Pract6\Unit1.pas=B:\техн\Pract\Pract5\Unit1.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.675,=B:\техн\Pract\Pract5\Unit3.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.685,B:\техн\Pract\Pract5\Unit3.pas=B:\техн\Pract\Pract6\Unit3.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.854,B:\техн\Pract\Pract5\Unit1.dfm=B:\техн\Pract\Pract6\Unit1.dfm</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.370,C:\Users\NoSay\Documents\Embarcadero\Studio\Projects\Project1.dproj=B:\техн\Pract\Pract5\Project1.dproj</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.007,C:\Users\NoSay\Documents\Embarcadero\Studio\Projects\Unit1.dfm=B:\техн\Pract\Pract5\Unit1.dfm</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.555,=B:\техн\Pract\Pract5\Unit2.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.521,B:\техн\Pract\Pract6\Unit1.dfm=B:\техн\Pract\Pract5\Unit1.dfm</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.223,=B:\техн\Pract\Pract5\KMaWk.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.685,B:\техн\Pract\Pract5\Unit3.dfm=B:\техн\Pract\Pract6\Unit3.dfm</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.799,B:\техн\Pract\Pract5\Project1.dproj=B:\техн\Pract\Pract5\Project1.dproj</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.063,B:\техн\Pract\Pract5\Project1.dproj=B:\техн\Pract\Pract5\Project1.dproj</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.893,B:\техн\Pract\Pract5\Project1.dproj=B:\техн\Pract\Pract5\Project1.dproj</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.085,B:\техн\Pract\Pract6\Unit3.dfm=B:\техн\Pract\Pract5\Unit3.dfm</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.965,B:\техн\Pract\Pract5\Project1.dproj=B:\техн\Pract\Pract5\Project1.dproj</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.966,B:\техн\Pract\Pract5\Project1.dproj=B:\техн\Pract\Pract6\Project1.dproj</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.007,C:\Users\NoSay\Documents\Embarcadero\Studio\Projects\Unit1.pas=B:\техн\Pract\Pract5\Unit1.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.777,=C:\Users\NoSay\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.085,B:\техн\Pract\Pract6\Unit3.pas=B:\техн\Pract\Pract5\Unit3.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.328,B:\техн\Pract\Pract5\Project1.dproj=B:\техн\Pract\Pract5\Project1.dproj</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.829,B:\техн\Pract\Pract6\Project1.dproj=B:\техн\Pract\Pract5\Project1.dproj</Transaction>
+  </Transactions>
+</BorlandProject>

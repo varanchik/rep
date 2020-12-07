@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>1899.12.30 00:00:00.000.799,E:\Pract 14\Unit1.dfm=C:\Users\KiberMansh\Documents\Embarcadero\Studio\Projects\Unit1.dfm</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.391,E:\Pract 14\Project1.dproj=C:\Users\KiberMansh\Documents\Embarcadero\Studio\Projects\Project1.dproj</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.755,E:\Pract 14\Unit1.dfm=E:\Pract 14\MainForm.dfm</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.471,E:\Pract 14\Unit2.pas=</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.662,=E:\Pract 14\Unit2.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.799,E:\Pract 14\Unit1.pas=C:\Users\KiberMansh\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.123,=C:\Users\KiberMansh\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.769,E:\Pract 14\Unit3.dfm=E:\Pract 14\GryphikForm.dfm</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.769,E:\Pract 14\Unit3.pas=E:\Pract 14\GryphikForm.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.755,E:\Pract 14\Unit1.pas=E:\Pract 14\MainForm.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.917,=E:\Pract 14\Unit3.pas</Transaction>
+  </Transactions>
+</BorlandProject>

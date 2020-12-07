@@ -1,0 +1,107 @@
+{$APPTYPE CONSOLE}
+
+
+uses SysUtils;
+
+const p:Double= 3.14;
+        pi:Double= 3.141592;
+var
+   st,otv: string;
+   n,m,m2,r,i,f: Integer;
+   mass: array[1..1000,1..1000] of Integer;
+//---------------------------------------------------------------------------
+procedure sort(d:integer);
+var
+i,j,g,max:integer;
+po:array[1..2] of Integer;
+begin
+ max:=Mass[1][1];
+  for i:=1 to d do
+  begin
+   for j := 1 to 0+i do
+     begin
+       if mass[j][1]<mass[i][1] then
+         begin
+           po[1]:=mass[j][1];
+           po[2]:=mass[j][2];
+           mass[j][1]:=Mass[i][1];
+           mass[j][2]:=Mass[i][2];
+           Mass[i][1]:=po[1];
+           Mass[i][2]:=po[2];
+         end;
+     end;
+  end;
+end;
+//----------------------------------------------------------------------------
+begin
+//Считываем перву строку в переменные
+ Readln(st);
+ n:= StrToint(Copy(st,1,Pos(' ',st)-1));
+ m:= StrToInt(Copy(st,Pos(' ',st)+1,Length(st)));
+ //------------------------------------------------------------------------
+ //Считываем вторую строку в массив
+ Readln(st);
+ st:=st+' ';
+ i:=1;
+ while 1<=Length(st) do
+  begin
+   mass[i][1]:=StrToInt(Copy(st,1,Pos(' ',st)-1));
+   Delete(st,1,Pos(' ',st));
+   mass[i][2]:=0;
+   Inc(i);
+  end;
+    Dec(i);
+//---------------------------------------------------------------------------
+//Производим подсчеты
+  m2:=0;
+  for r := 1 to i do
+    begin
+      if (r=i) then
+      begin
+       if m2=m then
+        begin
+         writeln('YES');
+         for f := 1to i do
+          otv:=otv+ IntToStr(mass[f][2])+' ';
+          write(otv);
+        end
+       else
+        begin
+         write('NO');
+        end;
+      end;
+
+
+      if (m2<m) or (m2<mass[r+1][1]) then
+        begin
+          repeat
+           m2:=m2+mass[r][1];
+           Inc(mass[r][2]);
+          until (m2>m) and (m2>mass[r+1][1]) ;
+        end
+       else
+        begin
+          if (m2>m) or (m2>mass[r+1][1]) then
+           begin
+            repeat
+             m2:=m2-mass[r][1];
+             Dec(mass[r][2]);
+            until (m2<=m) and (m2<=mass[r+1][1]) ;
+           end;
+         { else
+            begin
+              if m2=m then
+               begin
+                 write('YES');
+                 Writeln(otv);
+               end
+              else
+                begin
+                 write('NO');
+                end;
+            end; }
+        end;
+    end;
+//-------------------------------------------------------------------------
+  Readln;
+end.

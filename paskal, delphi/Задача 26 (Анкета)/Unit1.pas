@@ -1,0 +1,312 @@
+unit Unit1;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
+  System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ComCtrls, Vcl.Grids,
+  Data.DB, Vcl.DBGrids, Data.Win.ADODB;
+
+type
+  TForm1 = class(TForm)
+    GroupBox1: TGroupBox;
+    Edit1: TEdit;
+    Edit2: TEdit;
+    Edit3: TEdit;
+    DateTimePicker1: TDateTimePicker;
+    Label1: TLabel;
+    Label2: TLabel;
+    Label3: TLabel;
+    Label4: TLabel;
+    Label5: TLabel;
+    ComboBox1: TComboBox;
+    ComboBox2: TComboBox;
+    Label6: TLabel;
+    Label7: TLabel;
+    ComboBox3: TComboBox;
+    Label8: TLabel;
+    ComboBox4: TComboBox;
+    Edit4: TEdit;
+    Label9: TLabel;
+    Label10: TLabel;
+    RadioButton1: TRadioButton;
+    RadioButton2: TRadioButton;
+    Button1: TButton;
+    DBGrid1: TDBGrid;
+    DataSource1: TDataSource;
+    ADOConnection1: TADOConnection;
+    ADOQuery1: TADOQuery;
+    Button2: TButton;
+    Button3: TButton;
+    Button4: TButton;
+    procedure FormShow(Sender: TObject);
+    procedure Button1Click(Sender: TObject);
+    procedure RadioButton1Click(Sender: TObject);
+    procedure RadioButton2Click(Sender: TObject);
+    procedure Edit4KeyPress(Sender: TObject; var Key: Char);
+    procedure Button2Click(Sender: TObject);
+    procedure Button3Click(Sender: TObject);
+    procedure Button4Click(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  Form1: TForm1;
+
+implementation
+
+{$R *.dfm}
+
+procedure ListFileDir(Path: string; FileList: TStrings);
+var
+  SR: TSearchRec;
+begin
+  if FindFirst(Path + '*.*', faAnyFile, SR) = 0 then
+  begin
+    repeat
+      if (SR.Attr <> faDirectory) then
+      begin
+        FileList.Add(SR.Name);
+      end;
+    until FindNext(SR) <> 0;
+    FindClose(SR);
+  end;
+end;
+
+procedure MyGridSize(Grid: TDBGrid);
+const
+  DEFBORDER = 10;
+var
+  temp, n: Integer;
+  lmax: array [0 .. 30] of Integer;
+begin
+  with Grid do
+  begin
+    Canvas.Font := Font;
+    for n := 0 to Columns.Count - 1 do
+      lmax[n] := Canvas.TextWidth(Fields[n].FieldName) + DEFBORDER;
+    Grid.DataSource.DataSet.First;
+    while not Grid.DataSource.DataSet.EOF do
+    begin
+      for n := 0 to Columns.Count - 1 do
+      begin
+        temp := Canvas.TextWidth(trim(Columns[n].Field.DisplayText)) +
+          DEFBORDER;
+        if temp > lmax[n] then
+          lmax[n] := temp;
+      end; { for }
+      Grid.DataSource.DataSet.Next;
+    end;
+    Grid.DataSource.DataSet.First;
+    for n := 0 to Columns.Count - 1 do
+      if lmax[n] > 0 then
+        Columns[n].Width := lmax[n];
+  end;
+end;
+
+procedure DBgridRenameColums(Grid: TDBGrid);
+var
+  i: Integer;
+begin
+  for i := 0 to Grid.Columns.Count - 1 do
+  begin
+    { скрытие полей }
+    if (Grid.Columns[i].Title.Caption = 'Код') then
+      Grid.Columns[i].Visible := False;
+    { изменение названий столбцов для отображения }
+
+    if (Grid.Columns[i].Title.Caption = 'surname') then
+      Grid.Columns[i].Title.Caption := 'Фамилия';
+    if (Grid.Columns[i].Title.Caption = 'name') then
+      Grid.Columns[i].Title.Caption := 'Имя';
+    if (Grid.Columns[i].Title.Caption = 'patronymic') then
+      Grid.Columns[i].Title.Caption := 'Отчество';
+    if (Grid.Columns[i].Title.Caption = 'experience') then
+      Grid.Columns[i].Title.Caption := 'Стаж';
+    if (Grid.Columns[i].Title.Caption = 'dateOfBirth') then
+      Grid.Columns[i].Title.Caption := 'Дата рождения';
+    if (Grid.Columns[i].Title.Caption = 'education') then
+      Grid.Columns[i].Title.Caption := 'Образование';
+    if (Grid.Columns[i].Title.Caption = 'knowledgeOfLanguages') then
+      Grid.Columns[i].Title.Caption := 'Знание языков';
+    if (Grid.Columns[i].Title.Caption = 'computerSkills') then
+      Grid.Columns[i].Title.Caption := 'Владение компьютером';
+    if (Grid.Columns[i].Title.Caption = 'languageProficiency') then
+      Grid.Columns[i].Title.Caption := 'Уровень языка';
+    if (Grid.Columns[i].Title.Caption = 'recommendation') then
+      Grid.Columns[i].Title.Caption := 'Рекомендация';
+
+    MyGridSize(Grid); { ВЫРАВНИВАЕМ ПО ШИРИНЕ СТОЛБЦЫ }
+  end;
+end;
+
+procedure TForm1.Button1Click(Sender: TObject);
+var
+  s: string;
+begin
+  ADOQuery1.Close();
+  ADOQuery1.SQL.Clear;
+  ADOQuery1.SQL.Add('INSERT INTO Anketa ');
+  ADOQuery1.SQL.Add
+    ('(surname, name, patronymic, dateOfBirth, experience, education, knowledgeOfLanguages, computerSkills, languageProficiency,recommendation)');
+  ADOQuery1.SQL.Add(' VALUES (:s, :n, :p, :d, :ex, :ed, :kn, :co, :la, :re)');
+  ADOQuery1.parameters.ParamByName('s').Value := Edit1.Text; // фамилия
+  ADOQuery1.parameters.ParamByName('n').Value := Edit2.Text; // имя
+  ADOQuery1.parameters.ParamByName('p').Value := Edit3.Text; // отчество
+  ADOQuery1.parameters.ParamByName('d').Value :=
+    DateToStr(DateTimePicker1.Date);
+  // дата рождения
+  ADOQuery1.parameters.ParamByName('ex').Value := Edit4.Text; // стаж
+  ADOQuery1.parameters.ParamByName('ed').Value := ComboBox1.Items.Strings
+    [ComboBox1.ItemIndex]; // образование
+  ADOQuery1.parameters.ParamByName('kn').Value := ComboBox2.Items.Strings
+    [ComboBox2.ItemIndex]; // занание языков
+  ADOQuery1.parameters.ParamByName('co').Value := ComboBox4.Items.Strings
+    [ComboBox4.ItemIndex]; // владение компьютером
+  ADOQuery1.parameters.ParamByName('la').Value := ComboBox3.Items.Strings
+    [ComboBox3.ItemIndex]; // уровень языка
+  if RadioButton1.Checked then
+    s := 'Да';
+  if RadioButton2.Checked then
+    s := 'Нет';
+  ADOQuery1.parameters.ParamByName('re').Value := s; // рекомендация
+  ADOQuery1.ExecSQL;
+  { ================================= }
+  ADOQuery1.Close();
+  ADOQuery1.SQL.Clear;
+  ADOQuery1.SQL.Text := 'SELECT * FROM Anketa';
+  ADOQuery1.Open;
+
+  DBgridRenameColums(DBGrid1);
+end;
+
+procedure TForm1.Button2Click(Sender: TObject);
+var
+  strSQL: string;
+  arr: array [0 .. 10] of string;
+  i: Integer;
+  str: tstringlist;
+  d1, d2: TDate;
+  flag: Integer;
+begin
+  strSQL := '';
+  flag := 1;
+  str := tstringlist.Create;
+  if Length(Edit1.Text) > 0 then
+    str.Add('surname = ''' + Edit1.Text + '''');
+  if Length(Edit2.Text) > 0 then
+    str.Add('name = ''' + Edit2.Text + '''');
+  if Length(Edit3.Text) > 0 then
+    str.Add('patronymic = ''' + Edit3.Text + '''');
+  if Length(Edit4.Text) > 0 then
+    str.Add('experience = ' + Edit4.Text);
+  if Length(ComboBox1.Text) > 0 then
+    str.Add('education = ''' + ComboBox1.Items.Strings
+      [ComboBox1.ItemIndex] + '''');
+  if Length(ComboBox2.Text) > 0 then
+    str.Add('knowledgeOfLanguages = ''' + ComboBox2.Items.Strings
+      [ComboBox2.ItemIndex] + '''');
+  if Length(ComboBox3.Text) > 0 then
+    str.Add('languageProficiency = ''' + ComboBox3.Items.Strings
+      [ComboBox3.ItemIndex] + '''');
+  if Length(ComboBox4.Text) > 0 then
+    str.Add('computerSkills = ''' + ComboBox4.Items.Strings
+      [ComboBox4.ItemIndex] + '''');
+  if DateTimePicker1.Date <> strToDate('01.01.1970') then
+  begin
+    str.Add('dateOfBirth = :d');
+    flag := 0;
+  end;
+  if str.Count > 0 then
+  begin
+    for i := 0 to str.Count - 1 do
+    begin
+      if i <> str.Count - 1 then
+        strSQL := strSQL + str.Strings[i] + ' AND '
+      else
+        strSQL := strSQL + str.Strings[i];
+    end;
+  end
+  else
+    strSQL := strSQL + str.Strings[0];
+  ADOQuery1.Close;
+  ADOQuery1.SQL.Clear;
+  ADOQuery1.SQL.Add('SELECT * FROM Anketa WHERE ' + strSQL);
+  if flag <> 1 then
+    ADOQuery1.parameters.ParamByName('d').Value :=
+      DateToStr(DateTimePicker1.Date);
+  ADOQuery1.Open;
+  DBgridRenameColums(DBGrid1);
+end;
+
+procedure TForm1.Button3Click(Sender: TObject);
+begin
+  ADOQuery1.Close();
+  ADOQuery1.SQL.Clear;
+  ADOQuery1.SQL.Text := 'SELECT * FROM Anketa';
+  ADOQuery1.Open;
+  DBgridRenameColums(DBGrid1);
+end;
+
+procedure TForm1.Button4Click(Sender: TObject);
+begin
+  Edit1.Clear;
+  Edit2.Clear;
+  Edit3.Clear;
+  Edit4.Clear;
+  RadioButton2.Checked := true;
+  DateTimePicker1.Date := strToDate('01.01.1970');
+  ComboBox1.Text := '';
+  ComboBox2.Text := '';
+  ComboBox3.Text := '';
+  ComboBox4.Text := '';
+  DBgridRenameColums(DBGrid1);
+end;
+
+procedure TForm1.Edit4KeyPress(Sender: TObject; var Key: Char);
+begin
+  if not(Key in ['0' .. '9', #8]) then
+    Key := #0;
+end;
+
+procedure TForm1.FormShow(Sender: TObject);
+begin
+  ADOConnection1.ConnectionString :=
+    'Provider=Microsoft.Jet.OLEDB.4.0;Password="";Data Source=' +
+    ExtractFilePath(ParamStr(0)) + '\db.mdb' + ';Persist Security Info=True';
+  ADOConnection1.Connected := true;
+  RadioButton2.Checked := true;
+  ComboBox1.Items.Add('Среднее');
+  ComboBox1.Items.Add('Специальное');
+  ComboBox1.Items.Add('Высшее');
+  ComboBox2.Items.Add('Английский');
+  ComboBox2.Items.Add('Немецкий');
+  ComboBox2.Items.Add('Французский');
+  ComboBox3.Items.Add('Владею свободно');
+  ComboBox3.Items.Add('Читаю и перевожу со словарем');
+  ComboBox4.Items.Add('MSDOS');
+  ComboBox4.Items.Add('Windows');
+  ADOQuery1.Close();
+  ADOQuery1.SQL.Clear;
+  ADOQuery1.SQL.Text := 'SELECT * FROM Anketa';
+  ADOQuery1.Open;
+  DBgridRenameColums(DBGrid1);
+end;
+
+procedure TForm1.RadioButton1Click(Sender: TObject);
+begin
+  if RadioButton1.Checked then
+    RadioButton2.Checked := False;
+end;
+
+procedure TForm1.RadioButton2Click(Sender: TObject);
+begin
+  if RadioButton2.Checked then
+    RadioButton1.Checked := False;
+end;
+
+end.

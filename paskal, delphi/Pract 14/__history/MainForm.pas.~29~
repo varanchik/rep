@@ -1,0 +1,68 @@
+unit MainForm;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls,GryphikForm, Vcl.ExtCtrls;
+
+type
+  TForm1 = class(TForm)
+    Edit1: TEdit;
+    Edit2: TEdit;
+    Label1: TLabel;
+    Label2: TLabel;
+    Label3: TLabel;
+    Label4: TLabel;
+    Edit3: TEdit;
+    Button1: TButton;
+    Timer1: TTimer;
+    procedure Button1Click(Sender: TObject);
+    procedure Timer1Timer(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  Form1: TForm1;
+
+implementation
+
+{$R *.dfm}
+
+function Check(a1,a2: integer): Boolean;
+begin
+  if a1>a2 then
+    begin
+      Check:=False;
+      MessageDlg('Ќеправильные данные, а1 неможет быть больше а2',mtError,[mbok],0);
+    end
+  else
+   Check:=true;
+end;
+
+procedure TForm1.Button1Click(Sender: TObject);
+begin
+ if check(StrToInt(Edit1.Text),StrToInt(Edit2.Text)) then
+  begin
+    Form3:=TForm3.Create(self,StrToInt(Edit1.Text),StrToInt(Edit2.Text),StrToInt(Edit3.Text));
+    Form3.Show;
+    Timer1.Enabled:=true;
+  end;
+end;
+
+procedure TForm1.FormCreate(Sender: TObject);
+begin
+  Edit3.Focused:=True;
+end;
+
+procedure TForm1.Timer1Timer(Sender: TObject);
+begin
+  Timer1.Enabled:=false;
+  GryphikForm.form3.graph;
+end;
+
+end.

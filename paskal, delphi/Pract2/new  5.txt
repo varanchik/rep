@@ -1,0 +1,130 @@
+program Project1;
+
+{$APPTYPE CONSOLE}
+
+
+uses
+  SysUtils;
+
+type mass=array[1..2000] of string;
+ masi=array[1..2000] of integer;
+ dmass=array[1..2000,1..2000] of integer;
+var
+Zad,pro,udl:Mass;
+zt,zr:dmass;
+zadrt,nom:string;
+tr,rt,i,j,p,m,doptr:Integer;
+work:boolean;
+
+function num(l,zap:Integer):string;
+var
+i:integer;
+srt:string;
+begin;
+ for i := 1 to l do
+ begin
+ srt:=Copy(zad[i],Pos(' ',zad[i])+1,Length(zad[i]));
+  if IntToStr(zap)=srt then
+  begin
+  num:=zad[i];
+  end;
+ end;
+end;
+
+procedure num2(l,zap:Integer;var strt:string);
+var
+i:integer;
+srt:string;
+begin;
+ for i := 1 to l do
+ begin
+ srt:=(Copy(zadrt[i],1,Pos(' ',zadrt[i])-1));
+  if IntToStr(zap)=srt then
+  begin
+  strt:=zad[i];
+  end;
+ end;
+end;
+
+procedure sort2(j:integer;var Mas:dmass);
+var
+i,g,max,po:integer;
+begin
+ for i := 1 to tr do
+  for g := 1 to tr do
+  if Mas[g,j]>mas[i,j] then
+   begin
+     po:=Mas[g,j];
+     Mas[g,j]:=mas[i,j];
+     Mas[i,j]:=po;
+   end;
+end;
+
+begin
+Readln(zadrt);
+tr:=StrToInt(Copy(zadrt,1,Pos(' ',zadrt)-1));
+rt:=StrToInt(Copy(zadrt,Pos(' ',zadrt)+1,Length(zadrt)));
+for I := 1 to tr do
+begin
+  Readln(Zad[i]);
+end;
+for i:=1 to tr do
+begin
+ for j:=1 to 2 do
+ begin
+  if j=1 then
+   begin
+    zt[i,j]:=StrToInt(Copy(zad[i],1,Pos(' ',zad[i])-1));
+    zr[i,j]:=StrToInt(Copy(zad[i],1,Pos(' ',zad[i])-1));
+   end
+  else
+   begin
+    zt[i,j]:=StrToInt(Copy(zad[i],Pos(' ',zadrt)+1,Length(zad[i])));
+    zr[i,j]:=StrToInt(Copy(zad[i],Pos(' ',zadrt)+1,Length(zad[i])));
+   end;
+  end;
+end;
+
+sort2(2,zt);
+sort2(1,zr);
+nom:=num(tr,zt[tr,2]);
+udl[1]:=nom;
+doptr:=0;
+for i := 1 to tr do
+begin
+work:=True;
+nom:=num(tr,zt[i,2]);
+for m :=1 to tr do
+if (nom=pro[m]) or (nom=udl[m]) then
+begin
+  work:=False;
+end;
+if work then
+ begin
+ if (rt>=StrToInt(Copy(nom,1,Pos(' ',nom)-1))) and (i<>tr-1) then
+ begin
+ nom:=num(tr,zt[i,2]);
+ pro[i]:=nom;
+ rt:=StrToInt(Copy(nom,Pos(' ',nom)+1,Length(nom)));
+ inc(doptr);
+ end;
+ if (rt<StrToInt(Copy(nom,1,Pos(' ',nom)-1))) then
+ begin
+ nom:=num(tr,zt[i,2]);
+ pro[i]:=nom;
+ rt:=StrToInt(Copy(nom,Pos(' ',nom)+1,Length(nom)));
+ inc(doptr);
+ end;
+ end;
+end;
+ Writeln(IntToStr(doptr));
+ for i := 1 to doptr do
+ begin
+  for p := 1 to tr do
+  begin
+   if pro[i]=Zad[p] then
+   write(IntToStr(p)+' ');
+  end;
+ end;
+ readln;
+end.

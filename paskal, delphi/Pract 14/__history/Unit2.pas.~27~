@@ -1,0 +1,50 @@
+unit Unit2;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs;
+
+type
+  TForm2 = class(TForm)
+  private
+    { Private declarations }
+  public
+    constructor Createa(AOwner: TComponent;b,a1,a2:Integer);
+  end;
+
+ type TGraphik=class
+   private
+   _a1,_a2,_b:Integer;
+   public
+   constructor Create(a1,a2,b:Integer);
+ end;
+
+implementation
+
+{$R *.dfm}
+
+
+
+
+{ TGraphik }
+
+constructor TGraphik.Create(a1, a2, b: Integer);
+begin
+  _a1:=a1;
+  _a2:=a2;
+  _b:=b;
+  ShowMessage('√Œ“Œ¬Œ!!');
+end;
+
+{ TForm2 }
+
+constructor TForm2.Createa(AOwner: TComponent; b, a1, a2: Integer);
+var GR:TGraphik;
+begin
+  inherited Create(AOwner);
+  GR.Create(a1,a2,b);
+end;
+
+end.

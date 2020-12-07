@@ -1,0 +1,184 @@
+unit Unit1;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
+  System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls;
+
+type
+  TForm1 = class(TForm)
+    Edit1: TEdit;
+    Button1: TButton;
+    Label1: TLabel;
+    Label2: TLabel;
+    Label3: TLabel;
+    Edit2: TEdit;
+    Button2: TButton;
+    Label4: TLabel;
+    Label5: TLabel;
+    Edit3: TEdit;
+    Button3: TButton;
+    Memo1: TMemo;
+    procedure Button1Click(Sender: TObject);
+    procedure Button2Click(Sender: TObject);
+    procedure Button3Click(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+const
+  delims = ['.', ',', ':', ';', '!', '?', '-', ' ', #9, #10, #13];
+  maxStringLength = 80;
+  N = 100;
+
+type
+  Tstring = string[maxStringLength];
+
+type
+  TPos = record
+    Pos1, Len: Integer;
+  end;
+
+var
+  Form1: TForm1;
+  sss: string;
+  S: String;
+  i, j, Len, Pos1, Cnt, CntMax: Integer;
+  Da: set of Char;
+  Arr1: array [1 .. N] of TPos;
+
+implementation
+
+{$R *.dfm}
+
+procedure TForm1.Button1Click(Sender: TObject);
+const
+  m = ['а', 'у', 'о', 'ы', 'и', 'э', 'я', 'ю', 'ё', 'е'];
+var
+  str: ansistring;
+  i: Integer;
+begin
+  str := Edit1.Text;
+  for i := 1 to Length(str) do
+    if str[i] in m then
+      str[i] := '@';
+  Label2.Caption := 'Ответ: ' + str;
+end;
+
+{ КОСТЫЛИ ДЛЯ РУССКИХ БУКВ ВО ВТОРОМ ЗАДАНИИ , ДЛЯ АНГЛИЙСКИХ - решение в одну строку }
+function findWord(const S: string; start: Integer;
+  var wordStart, wordLen: Integer): boolean;
+var
+  i: Integer;
+begin
+  i := start;
+  while (i <= Length(S)) and (S[i] in delims) do
+    inc(i);
+  wordStart := i;
+  while (i <= Length(S)) and not(S[i] in delims) do
+    inc(i);
+  wordLen := i - wordStart;
+  findWord := wordLen > 0;
+end;
+
+function get_len_word(const S: string): Integer;
+var
+  b, ln, i, max_len: Integer;
+begin
+  max_len := 0;
+  i := 1;
+  while findWord(S, i, b, ln) do
+  begin
+    if ln > max_len then
+      max_len := ln;
+    i := b + ln;
+  end;
+  get_len_word := max_len;
+end;
+
+function upCharT(ch: Char): Char;
+var
+  rChar: Char;
+begin
+  case ch of
+    'a' .. 'z':
+      rChar := upCase(ch);
+    'а' .. 'п':
+      rChar := chr(ord(ch) - 32);
+    'р' .. 'я':
+      rChar := chr(ord(ch) - 80);
+    'ё':
+      rChar := 'Ё';
+  else
+    rChar := ch;
+  end;
+  upCharT := rChar;
+end;
+
+procedure ss(var S: string);
+var
+  i, j, b, ln, max_len: Integer;
+begin
+  max_len := get_len_word(S);
+  i := 1;
+  while findWord(S, i, b, ln) do
+  begin
+    if ln < max_len div 2 then
+      for j := 1 to ln do
+        S[b + j - 1] := upCharT((S[b + j - 1]));
+    i := b + ln;
+  end;
+end;
+
+procedure TForm1.Button2Click(Sender: TObject);
+begin
+  sss := Edit2.Text;
+  ss(sss);
+  Label4.Caption := 'Ответ: ' + sss;
+end;
+
+procedure TForm1.Button3Click(Sender: TObject);
+var
+  S, sl, smax: string;
+  i, j, qw, kmax: byte;
+  g: set of Char;
+
+begin
+  g := ['e', 'y', 'i', 'o', 'a'];
+  S := Edit3.Text;
+  Memo1.Lines.Add('Исходная строка: ' + S);
+  S := S + ' ';
+  for qw := 1 to 3 do
+  begin
+    kmax := 0;
+    sl := '';
+    for i := 1 to Length(S) do
+      if S[i] <> ' ' then
+        sl := sl + S[i]
+      else if Length(sl) > 0 then
+      begin
+        k := 0;
+        for j := 1 to Length(sl) do
+          if sl[j] in g then
+            inc(k);
+        if k = kmax then
+          smax := smax + ' ' + sl;
+        if k > kmax then
+        begin
+          smax := sl;
+          kmax := k;
+        end;
+        sl := '';
+      end;
+    Memo1.Lines.Add('Слово ' + inttostr(k) + ': ' + smax +
+      ' содержит максимальное количество согласных: ' + inttostr(kmax));
+    S := StringReplace(S, smax, ' ', [rfReplaceAll, rfIgnoreCase]);
+    Memo1.Lines.Add('Строка после удаления: ' + S);
+  end;
+end;
+
+end.
